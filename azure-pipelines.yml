@@ -53,14 +53,11 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/Webapp.zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-
-- task: AzureRmWebAppDeployment@4
+- task: AzureCLI@2
   inputs:
-    ConnectionType: 'AzureRM'
     azureSubscription: 'testterraform'
-    appType: 'webApp'
-    WebAppName: 'einfowebapppro155299'
-    deployToSlotOrASE: true
-    ResourceGroupName: 'sa1_test_eic_DevOpslearning'
-    SlotName: 'production'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az login
+      az webapp deployment source config-zip -g sa1_test_eic_DevOpslearning -n einfowebapppro155299 --src $(Build.ArtifactStagingDirectory)/Webapp.zip

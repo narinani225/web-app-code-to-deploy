@@ -38,10 +38,18 @@ steps:
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/aspnet-get-started\obj\Release\Package\PackageTmp'
     Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/WebApp.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/WebApp'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/WebApp'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/WebApp.zip'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'

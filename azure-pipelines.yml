@@ -34,19 +34,14 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-- task: PowerShell@2
+- task: CopyFiles@2
   inputs:
-    targetType: 'inline'
-    script: |
-     cd $(Build.SourcesDirectory)/aspnet-get-started
-     ls
-     cd $(Build.BinariesDirectory)
-     ls
-     cd $(Build.ArtifactStagingDirectory)
-     ls
+    SourceFolder: '$(Build.SourcesDirectory)/aspnet-get-started\obj\Release\Package\PackageTmp'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/WebApp.zip'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/WebApp.zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'

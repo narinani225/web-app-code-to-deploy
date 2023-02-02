@@ -34,3 +34,13 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+     cd $(Build.SourcesDirectory)
+     ls
+     cd $(Build.BinariesDirectory)
+     ls
+     cd $(Build.ArtifactStagingDirectory)
+     ls
